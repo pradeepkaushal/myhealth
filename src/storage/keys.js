@@ -5,4 +5,8 @@ export const STORAGE_KEYS = {
   reminderEnabled: "myhealth:reminderEnabled",
   reminderTime: "myhealth:reminderTime",
   reminderId: "myhealth:reminderId",
+  teams: "myhealth:teams",
+  selectedTeamId: "myhealth:selectedTeamId",
+  selectedMemberId: "myhealth:selectedMemberId",
+  selectedTemplateId: "myhealth:selectedTemplateId",
 };
