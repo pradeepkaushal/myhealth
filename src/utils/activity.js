@@ -19,3 +19,17 @@ export const sumMinutesForDay = (entries, dayKey) => {
     .filter((entry) => entry.date === dayKey)
     .reduce((total, entry) => total + entry.minutes, 0);
 };
+
+export const sumTotalMinutes = (entries) => {
+  if (!entries || !entries.length) return 0;
+  return entries.reduce((total, entry) => total + (entry.minutes || 0), 0);
+};
+
+export const calculatePointsFromMinutes = (minutes, streak = 0) => {
+  const safeMinutes = Number(minutes) || 0;
+  const safeStreak = Number(streak) || 0;
+  return Math.max(0, Math.round(safeMinutes * 4 + safeStreak * 10));
+};
+
+export const calculatePoints = (entries, streak = 0) =>
+  calculatePointsFromMinutes(sumTotalMinutes(entries), streak);

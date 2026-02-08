@@ -7,18 +7,16 @@ import { getLastNDays, sumMinutesForDay } from "../../utils/activity";
 
 const chartWidth = Dimensions.get("window").width - 72;
 
-export default function DailyActivityGraphCard({ member }) {
-  if (!member) {
-    return (
-      <SectionCard>
-        <Text style={styles.cardTitle}>Daily Activity Graph</Text>
-        <Text style={styles.emptyText}>Select a member to view activity.</Text>
-      </SectionCard>
-    );
-  }
-
+export default function DailyActivityGraphCard({ member, dailyMinutes }) {
   const days = getLastNDays(7);
-  const dataPoints = days.map((day) => sumMinutesForDay(member.dailyActivity, day.key));
+  const safeMinutes = Array.isArray(dailyMinutes) ? dailyMinutes : [];
+  const dataPoints =
+    safeMinutes.length === days.length
+      ? safeMinutes
+      : days.map((day, index) =>
+          safeMinutes[index] ?? (member ? sumMinutesForDay(member.dailyActivity, day.key) : 0)
+        );
+  const hasData = dataPoints.some((value) => value > 0);
   const total = dataPoints.reduce((sum, value) => sum + value, 0);
   const average = Math.round(total / dataPoints.length);
 
@@ -42,7 +40,7 @@ export default function DailyActivityGraphCard({ member }) {
           style={styles.chart}
         />
       </View>
-      {total === 0 && <Text style={styles.emptyText}>No activity logged yet.</Text>}
+      {!hasData && <Text style={styles.emptyText}>No activity captured yet.</Text>}
     </SectionCard>
   );
 }

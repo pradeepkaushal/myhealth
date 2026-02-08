@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import SectionCard from "./SectionCard";
 import { COLORS } from "../theme/colors";
 
-export default function ActivityTemplatesCard({ templates, onApplyTemplate }) {
+export default function ActivityTemplatesCard({ templates, onApplyTemplate, onViewTemplate }) {
   return (
     <SectionCard>
       <Text style={styles.cardTitle}>Activity Templates</Text>
@@ -17,9 +17,16 @@ export default function ActivityTemplatesCard({ templates, onApplyTemplate }) {
           </View>
           <Text style={styles.templateMeta}>{template.description}</Text>
           <Text style={styles.templateActivities}>{template.activities.join(" • ")}</Text>
-          <Pressable style={styles.secondaryButton} onPress={() => onApplyTemplate(template)}>
-            <Text style={styles.secondaryButtonText}>Use Template</Text>
-          </Pressable>
+          <View style={styles.buttonRow}>
+            <Pressable style={styles.secondaryButton} onPress={() => onApplyTemplate(template)}>
+              <Text style={styles.secondaryButtonText}>Use Template</Text>
+            </Pressable>
+            {onViewTemplate && (
+              <Pressable style={styles.ghostButton} onPress={() => onViewTemplate(template)}>
+                <Text style={styles.ghostButtonText}>View Details</Text>
+              </Pressable>
+            )}
+          </View>
         </View>
       ))}
     </SectionCard>
@@ -74,17 +81,34 @@ const styles = StyleSheet.create({
     color: COLORS.mutedText,
     marginTop: 4,
   },
-  secondaryButton: {
+  buttonRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
     marginTop: 10,
+  },
+  secondaryButton: {
     borderWidth: 1,
     borderColor: COLORS.primary,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    alignSelf: "flex-start",
+    backgroundColor: COLORS.card,
   },
   secondaryButtonText: {
     color: COLORS.primary,
+    fontWeight: "600",
+  },
+  ghostButton: {
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: "#FFFFFF",
+  },
+  ghostButtonText: {
+    color: COLORS.mutedText,
     fontWeight: "600",
   },
 });

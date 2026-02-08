@@ -9,4 +9,6 @@ export const STORAGE_KEYS = {
   selectedTeamId: "myhealth:selectedTeamId",
   selectedMemberId: "myhealth:selectedMemberId",
   selectedTemplateId: "myhealth:selectedTemplateId",
+  authLoggedIn: "myhealth:authLoggedIn",
+  authUsername: "myhealth:authUsername",
 };

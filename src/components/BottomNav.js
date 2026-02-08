@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../theme/colors";
 
-export default function BottomNav({ activeTab, onChange }) {
+export default function BottomNav({ activeTab, onChange, onFocusMain }) {
   const items = [
     { key: "activities", label: "My Activities", icon: "fitness" },
     { key: "home", label: "Home", icon: "home" },
@@ -21,7 +21,10 @@ export default function BottomNav({ activeTab, onChange }) {
             <Pressable
               key={item.key}
               style={[styles.item, active && styles.itemActive]}
-              onPress={() => onChange(item.key)}
+              onPress={() => {
+                if (onFocusMain) onFocusMain();
+                onChange(item.key);
+              }}
             >
               <Ionicons name={item.icon} size={18} color={color} />
               <Text style={[styles.itemText, active && styles.itemTextActive]}>{item.label}</Text>
